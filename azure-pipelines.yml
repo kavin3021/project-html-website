@@ -1,9 +1,25 @@
 trigger:
-- main
+- main  # Adjust if the default branch is different
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'  # You can use another OS image if needed
 
 steps:
-- script: echo Hello, Azure DevOps!
-  displayName: 'Run a one-line script'
+- task: UseNode@2
+  inputs:
+    versionSpec: '16.x'  # Adjust Node.js version if required
+    addToPath: true
+
+- script: |
+    npm install  # Install dependencies from package.json
+  displayName: 'Install dependencies'
+
+- script: |
+    npm run build  # Run the build script (adjust if different in the repo)
+  displayName: 'Build the website'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'  # Path for build output
+    ArtifactName: 'html-website'  # You can change this name
+    publishLocation: 'Container'
