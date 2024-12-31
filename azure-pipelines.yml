@@ -2,8 +2,9 @@ trigger:
 - main  # Adjust if the default branch is different
 
 pool:
-  name: 'Azure Pipelines'
-  vmImage: 'ubuntu-latest'  # You can use another OS image if needed
+  name: 'Default'  # Use the default agent pool for self-hosted agents (if not created a custom pool)
+  demands:
+    - agent.name -equals 'vstsagent.Kavindhiran1735638777857.Default.KAVIN'  # Correct demand syntax to match agent name
 
 steps:
 - task: UseNode@1
